@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SQL Server MCP - Complete Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #0066cc;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #0088cc;
+            border-bottom: 2px solid #0088cc;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #00aacc;
+            margin-top: 20px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #0066cc;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #0066cc;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .warning {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        @media print {
+            body {
+                max-width: 100%;
+            }
+            h1, h2 {
+                page-break-after: avoid;
+            }
+            pre, table {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>SQL Server Management MCP Server - Complete Implementation and Usage Guide</h1>
+    <p><strong>Version:</strong> 1.0.0<br>
+    <strong>Last Updated:</strong> May 21, 2026<br>
+    <strong>Document Type:</strong> Technical Implementation Guide</p>
+    
+    <div class="note">
+        <strong>Note:</strong> This is a simplified HTML version for easy printing to PDF. 
+        For the complete markdown version, see <code>docs/COMPLETE_GUIDE.md</code>
+    </div>
+    
+    <h2>Table of Contents</h2>
+    <ol>
+        <li><a href="#executive-summary">Executive Summary</a></li>
+        <li><a href="#installation">Prerequisites and Installation</a></li>
+        <li><a href="#configuration">Configuration</a></li>
+        <li><a href="#tools">Tool Reference</a></li>
+        <li><a href="#security">Security and Access Control</a></li>
+        <li><a href="#examples">Usage Examples</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ol>
+    
+    <h2 id="executive-summary">Executive Summary</h2>
+    <p>The SQL Server Management MCP (Model Context Protocol) Server is a comprehensive solution for managing Microsoft SQL Server instances through natural language interactions with AI assistants like OpenCode.</p>
+    
+    <h3>Key Features</h3>
+    <ul>
+        <li><strong>Windows Authentication:</strong> Seamless integration with existing UCN credentials</li>
+        <li><strong>Environment Protection:</strong> Automatic prevention of write operations on production servers</li>
+        <li><strong>Comprehensive Logging:</strong> Full audit trail of all operations</li>
+        <li><strong>Error Handling:</strong> Robust error management with detailed feedback</li>
+    </ul>
+    
+    <h3>Available Operations</h3>
+    <ul>
+        <li><strong>Database Querying:</strong> Read-only access to dbo schema tables</li>
+        <li><strong>Data Modification:</strong> Controlled write operations (DEV environments only: DOA, DOB)</li>
+        <li><strong>Job Monitoring:</strong> SQL Server Agent job status and history tracking</li>
+        <li><strong>Instance Management:</strong> Server status monitoring and service control</li>
+    </ul>
+    
+    <h2 id="installation">Prerequisites and Installation</h2>
+    
+    <h3>System Requirements</h3>
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Requirement</th>
+        </tr>
+        <tr>
+            <td>Operating System</td>
+            <td>Windows Server 2016+ or Windows 10+</td>
+        </tr>
+        <tr>
+            <td>Python Version</td>
+            <td>3.9 or higher</td>
+        </tr>
+        <tr>
+            <td>Memory</td>
+            <td>2 GB RAM minimum</td>
+        </tr>
+        <tr>
+            <td>Disk Space</td>
+            <td>100 MB</td>
+        </tr>
+    </table>
+    
+    <h3>Installation Steps</h3>
+    
+    <div class="success">
+        <strong>Quick Install:</strong>
+        <pre>cd C:\path\to\sql-server-mcp
+.\install.ps1</pre>
+    </div>
+    
+    <h4>1. Install ODBC Driver</h4>
+    <ol>
+        <li>Download Microsoft ODBC Driver 17 for SQL Server</li>
+        <li>Run the installer: <code>msodbcsql.msi</code></li>
+        <li>Accept license terms and complete installation</li>
+    </ol>
+    
+    <h4>2. Install Python Dependencies</h4>
+    <pre>cd C:\path\to\sql-server-mcp
+pip install -e .</pre>
+    
+    <h4>3. Configure OpenCode</h4>
+    <p>Add to <code>~/.config/opencode/config.json</code>:</p>
+    <pre>{
+  "mcpServers": {
+    "sql-server": {
+      "command": "python",
+      "args": ["-m", "src.server"],
+      "cwd": "C:/path/to/sql-server-mcp",
+      "env": {
+        "PYTHONPATH": "C:/path/to/sql-server-mcp",
+        "LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}</pre>
+    
+    <h2 id="configuration">Configuration</h2>
+    
+    <h3>Environment Detection</h3>
+    <p>The MCP server automatically detects the environment based on server naming:</p>
+    
+    <table>
+        <tr>
+            <th>Server Name Pattern</th>
+            <th>Detected Environment</th>
+            <th>Write Operations</th>
+        </tr>
+        <tr>
+            <td>Contains "DOA"</td>
+            <td>Development A (DOA)</td>
+            <td>✅ Allowed</td>
+        </tr>
+        <tr>
+            <td>Contains "DOB"</td>
+            <td>Development B (DOB)</td>
+            <td>✅ Allowed</td>
+        </tr>
+        <tr>
+            <td>Contains "PROD", "PRD", "PRODUCTION"</td>
+            <td>Production</td>
+            <td>❌ Blocked</td>
+        </tr>
+        <tr>
+            <td>Other</td>
+            <td>Unknown</td>
+            <td>❌ Blocked</td>
+        </tr>
+    </table>
+    
+    <h2 id="tools">Tool Reference</h2>
+    
+    <h3>Table Operations (6 tools)</h3>
+    
+    <h4>1. list_tables</h4>
+    <p>List all tables in the dbo schema of a database.</p>
+    <pre>Parameters:
+  - server_name: SQL Server instance name
+  - database_name: Target database</pre>
+    
+    <h4>2. get_table_schema</h4>
+    <p>Get detailed schema information for a table.</p>
+    
+    <h4>3. query_table</h4>
+    <p>Execute SELECT queries on dbo tables.</p>
+    
+    <h4>4. update_table (DEV ONLY)</h4>
+    <div class="warning">
+        <strong>⚠️ RESTRICTION:</strong> Only works on DOA or DOB servers. WHERE clause is REQUIRED.
+    </div>
+    
+    <h4>5. insert_into_table (DEV ONLY)</h4>
+    <p>Insert new records into a table (DOA/DOB only).</p>
+    
+    <h4>6. delete_from_table (DEV ONLY)</h4>
+    <p>Delete records from a table (DOA/DOB only).</p>
+    
+    <h3>SQL Agent Job Operations (4 tools)</h3>
+    
+    <h4>7. list_agent_jobs</h4>
+    <p>List all SQL Server Agent jobs.</p>
+    
+    <h4>8. get_job_history</h4>
+    <p>Get execution history for SQL Server Agent jobs.</p>
+    
+    <h4>9. get_job_status</h4>
+    <p>Get current status of a specific job.</p>
+    
+    <h4>10. get_failed_jobs</h4>
+    <p>Get jobs that failed in the specified time window.</p>
+    
+    <h3>Instance Management Operations (5 tools)</h3>
+    
+    <h4>11. get_instance_status</h4>
+    <p>Get SQL Server instance status and information.</p>
+    
+    <h4>12. restart_sql_service</h4>
+    <div class="warning">
+        <strong>⚠️ REQUIRES:</strong> Administrator privileges
+    </div>
+    
+    <h4>13. restart_agent_service</h4>
+    <p>Restart the SQL Server Agent service.</p>
+    
+    <h4>14. get_service_status</h4>
+    <p>Check Windows service status for SQL Server or Agent.</p>
+    
+    <h4>15. test_connection</h4>
+    <p>Test connectivity and authentication to SQL Server.</p>
+    
+    <h2 id="security">Security and Access Control</h2>
+    
+    <h3>Environment-Based Protection</h3>
+    <ul>
+        <li><strong>Allowed:</strong> DOA, DOB environments</li>
+        <li><strong>Blocked:</strong> Production and unknown environments</li>
+        <li><strong>No Bypass:</strong> Hard-coded protection cannot be disabled</li>
+    </ul>
+    
+    <h3>Authentication</h3>
+    <ul>
+        <li>Windows Authentication (UCN credentials)</li>
+        <li>No passwords in configuration</li>
+        <li>SQL Server role-based permissions</li>
+        <li>Parameterized queries prevent SQL injection</li>
+    </ul>
+    
+    <h2 id="examples">Usage Examples</h2>
+    
+    <h3>Example 1: Query Data</h3>
+    <pre>User: "Show me all users from DOA-SERVER\DEV database CustomerDB"
+
+Tool: query_table
+Result: Users displayed with all columns</pre>
+    
+    <h3>Example 2: Update Dev Data</h3>
+    <pre>User: "Update user status to 'inactive' for user ID 101 in DOA database"
+
+Tool: update_table
+Environment: DOA (✓ allowed)
+Result: 1 row updated</pre>
+    
+    <h3>Example 3: Production Protection</h3>
+    <pre>User: "Update user status in PROD-SERVER"
+
+Tool: update_table
+Environment: PRODUCTION (✗ blocked)
+Result: Error - write operations not allowed on production</pre>
+    
+    <h2 id="troubleshooting">Troubleshooting</h2>
+    
+    <h3>Connection Timeout</h3>
+    <p><strong>Error:</strong> <code>Unable to connect to server. Timeout expired.</code></p>
+    <p><strong>Solutions:</strong></p>
+    <ul>
+        <li>Verify server is online</li>
+        <li>Check network connectivity</li>
+        <li>Verify firewall settings</li>
+        <li>Check server name spelling</li>
+    </ul>
+    
+    <h3>Authentication Failed</h3>
+    <p><strong>Error:</strong> <code>Login failed for user 'DOMAIN\username'</code></p>
+    <p><strong>Solutions:</strong></p>
+    <ul>
+        <li>Grant SQL Server login permissions</li>
+        <li>Verify Windows Authentication is enabled</li>
+        <li>Check domain and username</li>
+    </ul>
+    
+    <h3>Permission Denied on Write Operations</h3>
+    <p><strong>Error:</strong> <code>UPDATE operations are only allowed on DEV environments</code></p>
+    <p><strong>This is by design!</strong> Write operations only work on DOA and DOB servers.</p>
+    
+    <h2>Additional Resources</h2>
+    
+    <p>For complete documentation, see:</p>
+    <ul>
+        <li><code>README.md</code> - Quick start guide</li>
+        <li><code>docs/COMPLETE_GUIDE.md</code> - Full documentation (1,500+ lines)</li>
+        <li><code>PROJECT_SUMMARY.md</code> - Project overview</li>
+    </ul>
+    
+    <div class="note">
+        <strong>To Generate PDF:</strong><br>
+        Open this file in a browser (Chrome, Edge, Firefox) and press Ctrl+P, then select "Save as PDF"
+    </div>
+    
+    <hr>
+    <p><em>Document End - SQL Server Management MCP Server v1.0.0 - May 21, 2026</em></p>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "pdf_options": {
+    "format": "A4",
+    "margin": {
+      "top": "20mm",
+      "right": "20mm",
+      "bottom": "20mm",
+      "left": "20mm"
+    },
+    "printBackground": true,
+    "displayHeaderFooter": true,
+    "headerTemplate": "<div style='font-size: 9px; width: 100%; text-align: center; color: #666;'></div>",
+    "footerTemplate": "<div style='font-size: 9px; width: 100%; text-align: center; color: #666;'><span class='pageNumber'></span> / <span class='totalPages'></span></div>"
+  },
+  "stylesheet": "body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; } h1 { page-break-before: always; color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; } h2 { color: #34495e; border-bottom: 2px solid #95a5a6; padding-bottom: 8px; margin-top: 30px; } h3 { color: #555; margin-top: 25px; } code { background-color: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', 'Courier New', monospace; } pre { background-color: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; } pre code { background-color: transparent; padding: 0; } table { border-collapse: collapse; width: 100%; margin: 20px 0; } th, td { border: 1px solid #ddd; padding: 12px; text-align: left; } th { background-color: #3498db; color: white; font-weight: bold; } tr:nth-child(even) { background-color: #f9f9f9; } a { color: #3498db; text-decoration: none; } a:hover { text-decoration: underline; } blockquote { border-left: 4px solid #3498db; padding-left: 20px; margin-left: 0; color: #555; font-style: italic; } .page-break { page-break-after: always; }",
+  "body_class": "markdown-body"
+}

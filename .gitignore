@@ -1,0 +1,52 @@
+# Sensitive files
+*.env
+*.credentials
+*credentials*.json
+aws-temp-creds*.json
+tools_config.yaml
+
+# API Keys and Tokens
+*token*
+*secret*
+*password*
+
+# Build artifacts
+*.jar
+*.exe
+*.dll
+target/
+publish/
+build/
+dist/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/

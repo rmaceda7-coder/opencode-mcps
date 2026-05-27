@@ -1,0 +1,146 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "serena": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server",
+        "--context",
+        "ide-assistant",
+        "--project",
+        "."
+      ],
+      "enabled": true
+    },
+    "atlassian": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp",
+      "enabled": true
+    },
+    "test-plan-creator": {
+      "type": "local",
+      "command": [
+        "java",
+        "-jar",
+        "C:\\Users\\ramiro.maceda\\AITestPlanGenerator\\utility-suite-data-qa-automation-ai-framework\\ms-mcr-auto-tp-gen\\stdio\\test-plan-creator-stdio\\target\\test-plan-creator-stdio-0.0.1-SNAPSHOT.jar"
+      ],
+      "enabled": true
+    },
+    "snowflake": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "snowflake-labs-mcp",
+        "--service-config-file",
+        "C:\\Users\\ramiro.maceda\\.mcp\\tools_config.yaml",
+        "--account",
+        "cxone-cxone_na1",
+        "--warehouse",
+        "DATALAKE_CONSOLE_USERS",
+        "--role",
+        "DL_READ_ONLY"
+      ],
+      "enabled": true,
+      "environment": {
+        "SNOWFLAKE_USER": "{env:SF_USERNAME}",
+        "SNOWFLAKE_PASSWORD": "{env:SF_PASSWORD}"
+      }
+    },
+    "kafdrop": {
+      "type": "local",
+      "command": [
+        "python",
+        "C:\\Users\\ramiro.maceda\\.config\\opencode\\kafdrop_mcp.py"
+      ],
+      "enabled": true,
+      "environment": {
+        "KAFDROP_URL_DEV": "https://sharedeks01-na1.infra.dev.internal/kafdrop/",
+        "KAFDROP_URL_TEST": "https://sharedeks01-na1.infra.test.internal/kafdrop/",
+        "KAFDROP_URL_STAGING": "https://sharedeks01-na1.infra.staging.internal/kafdrop/",
+        "KAFDROP_URL_PERF": "https://sharedeks01-na1.infra.perf.internal/kafdrop/"
+      }
+    },
+    "kafdrop-bulk-search": {
+      "type": "local",
+      "command": ["node", "C:/Users/ramiro.maceda/kafdrop-bulk-search-mcp/index.js"],
+      "enabled": true,
+      "environment": {
+        "KAFDROP_BASE_URL_DEV": "https://sharedeks01-na1.infra.dev.internal/kafdrop",
+        "KAFDROP_BASE_URL_TEST": "https://sharedeks01-na1.infra.test.internal/kafdrop",
+        "KAFDROP_BASE_URL_STAGING": "https://sharedeks01-na1.infra.staging.internal/kafdrop",
+        "KAFDROP_BASE_URL_PERF": "https://sharedeks01-na1.infra.perf.internal/kafdrop"
+      }
+    },
+    "kinesis-reader-dev": {
+      "type": "local",
+      "command": [
+        "C:\\Users\\ramiro.maceda\\data-acd-automation-core\\kinesis-reader-mcp\\publish\\kinesis-reader-mcp.exe"
+      ],
+      "enabled": true,
+      "environment": {
+        "Kinesis__Environment": "development",
+        "Kinesis__Region": "us-west-2",
+        "Kinesis__AwsCredentialsFilePath": "none",
+        "Kinesis__CredentialFilePath": "C:\\Temp\\aws-temp-creds-ic-dev.json",
+        "Kinesis__AwsAccessKeyId": "",
+        "Kinesis__AwsSecretAccessKey": ""
+      }
+    },
+    "kinesis-reader-test": {
+      "type": "local",
+      "command": [
+        "C:\\Users\\ramiro.maceda\\data-acd-automation-core\\kinesis-reader-mcp\\publish\\kinesis-reader-mcp.exe"
+      ],
+      "enabled": true,
+      "environment": {
+        "Kinesis__Environment": "testing",
+        "Kinesis__Region": "us-west-2",
+        "Kinesis__AwsCredentialsFilePath": "none",
+        "Kinesis__CredentialFilePath": "C:\\Temp\\aws-temp-creds-ic-test.json",
+        "Kinesis__AwsAccessKeyId": "",
+        "Kinesis__AwsSecretAccessKey": ""
+      }
+    },
+    "kinesis-reader-staging": {
+      "type": "local",
+      "command": [
+        "C:\\Users\\ramiro.maceda\\data-acd-automation-core\\kinesis-reader-mcp\\publish\\kinesis-reader-mcp.exe"
+      ],
+      "enabled": true,
+      "environment": {
+        "Kinesis__Environment": "staging",
+        "Kinesis__Region": "us-west-2",
+        "Kinesis__AwsCredentialsFilePath": "none",
+        "Kinesis__CredentialFilePath": "C:\\Temp\\aws-temp-creds-ic-staging.json",
+        "Kinesis__AwsAccessKeyId": "",
+        "Kinesis__AwsSecretAccessKey": ""
+      }
+    },
+    "github": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer YOUR_GITHUB_TOKEN_HERE"
+      }
+    },
+    "sql-server": {
+      "type": "local",
+      "command": [
+        "python",
+        "-m",
+        "src.server"
+      ],
+      "enabled": true,
+      "workingDirectory": "C:\\Users\\ramiro.maceda\\Documents\\Opencode guides\\sql-server-mcp",
+      "environment": {
+        "PYTHONPATH": "C:\\Users\\ramiro.maceda\\Documents\\Opencode guides\\sql-server-mcp",
+        "LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}
